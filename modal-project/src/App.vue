@@ -1,9 +1,18 @@
 <template>
   <div>
     <h1>{{ title }}</h1>
-    <input type="text" ref="name" />
-    <button @click="handleClick">Click me</button>
-    <MyModal />
+    <p>...Welcome...</p>
+    <div v-if="showModal">
+      <MyModal theme="sale" :toogleModal="toogleModal" >
+      <template v-slot:links>
+        <a href="#">Sign up now</a>
+        <a href="#">More Info</a>
+      </template>
+      <h1>Ninja Givaway</h1>
+      <p>Grab your ninja swag for half price!</p>
+      </MyModal>
+    </div>
+    <button @click="toogleModal">Open modal</button>
   </div>
 </template>
 
@@ -16,13 +25,12 @@ export default {
   data() {
     return {
       title: "My First Vue App :)",
+      showModal: false,
     };
   },
   methods: {
-    handleClick() {
-      console.log(this.$refs.name);
-      this.$refs.name.classList.add("active");
-      this.$refs.name.focus();
+    toogleModal() {
+      this.showModal = !this.showModal;
     },
   },
 };
@@ -38,6 +46,7 @@ export default {
   margin-top: 60px;
 }
 h1 {
+  color: red;
   border-bottom: 1px solid #ddd;
   display: inline block;
   padding-bottom: 10px;
