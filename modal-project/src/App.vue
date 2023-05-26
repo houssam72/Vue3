@@ -1,36 +1,36 @@
 <template>
   <div>
-    <h1>{{ title }}</h1>
-    <p>...Welcome...</p>
-    <div v-if="showModal">
-      <MyModal theme="sale" :toogleModal="toogleModal" >
-      <template v-slot:links>
-        <a href="#">Sign up now</a>
-        <a href="#">More Info</a>
-      </template>
-      <h1>Ninja Givaway</h1>
-      <p>Grab your ninja swag for half price!</p>
-      </MyModal>
-    </div>
-    <button @click="toogleModal">Open modal</button>
+    <h1>Ninja Reaction Timer</h1>
+    <button @click="start" :disabled="isPlaying">Play</button>
+    <MyBlock v-if="isPlaying" :delay="delay" @end="endGame" />
+    <MyResults v-if="score" :score="score" />
   </div>
 </template>
 
 <script>
-import MyModal from "./components/MyModal.vue";
+import MyBlock from "./components/MyBlock.vue";
+import MyResults from "./components/MyResults.vue";
 
 export default {
   name: "App",
-  components: { MyModal },
+  components: { MyBlock, MyResults },
   data() {
     return {
-      title: "My First Vue App :)",
-      showModal: false,
+      isPlaying: false,
+      deplay: null,
+      score: null,
     };
   },
   methods: {
-    toogleModal() {
-      this.showModal = !this.showModal;
+    start() {
+      this.deplay = 2000 + Math.random() * 5000;
+      this.isPlaying = true;
+      this.score = null;
+      console.log(this.deplay);
+    },
+    endGame(reactionTime) {
+      this.score = reactionTime;
+      this.isPlaying = false;
     },
   },
 };
@@ -42,13 +42,7 @@ export default {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
+  color: #444;
   margin-top: 60px;
-}
-h1 {
-  color: red;
-  border-bottom: 1px solid #ddd;
-  display: inline block;
-  padding-bottom: 10px;
 }
 </style>
